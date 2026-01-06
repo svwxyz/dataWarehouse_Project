@@ -2,7 +2,7 @@
 	"name": "Dimensions",
 	"properties": {
 		"content": {
-			"query": "--------------\n--Dimensions--\n--------------\nSELECT top 100 * from silver.retail;\n\n\nselect ",
+			"query": "--------------\n--Dimensions--\n--------------\nSELECT top 100 * from silver.retail;\n\nselect ",
 			"metadata": {
 				"language": "sql"
 			},
