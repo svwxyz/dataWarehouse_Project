@@ -1,0 +1,17 @@
+{
+	"name": "Facts",
+	"properties": {
+		"content": {
+			"query": "--Fact--\nCREATE EXTERNAL table gold.FactRetail\nwith(\n    LOCATION = 'FactRetail',\n    DATA_SOURCE = gold_source,\n    FILE_FORMAT = parquet\n)as \nSELECT\n    c.CustomerKey,\n    d.DateKey,\n    p.ProductKey,\n    pr.PromotionKey,\n    s.StoreKey,\n    r.season,\n    r.Total_Items,\n    r.Total_Cost\nFROM silver.retail r\nJOIN gold.DimCustomer c\n    ON UPPER(TRIM(r.Customer_Name)) = c.Customer_Name\n   AND r.Customer_Category = c.Customer_Category\n\nJOIN gold.DimDate d\n    ON CAST(r.[Date] AS DATE) = d.FullDate\n\nJOIN gold.DimProduct p\n    ON UPPER(TRIM(r.Product)) = p.Product_Name\n\nJOIN gold.DimPromotion pr\n    ON UPPER(TRIM(r.Promotion)) = pr.Promotion_Name\n   AND r.Discount_Applied = pr.Discount_Applied\n\nJOIN gold.DimStore s\n    ON UPPER(TRIM(r.City)) = s.City\n   AND UPPER(TRIM(r.Store_Type)) = s.Store_Type;\n\n\n\n\n\n\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "retail_serverless",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

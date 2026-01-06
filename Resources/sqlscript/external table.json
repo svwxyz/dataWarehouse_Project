@@ -2,7 +2,7 @@
 	"name": "external table",
 	"properties": {
 		"content": {
-			"query": "CREATE SCHEMA silver;\nCREATE schema gold;\n\n-------------------\n---External Table--\n-------------------\nCREATE EXTERNAL TABLE silver.retail\n(\n    Transaction_ID INT,\n    [Date] DATETIME2,\n    Customer_Name VARCHAR(100),\n    Product VARCHAR(100),\n    Total_Items INT,\n    Total_Cost DECIMAL(10,2),\n    Payment_Method VARCHAR(100),\n    City VARCHAR(100),\n    Store_Type VARCHAR(100),\n    Discount_Applied VARCHAR(100),\n    Customer_Category VARCHAR(100),\n    Season VARCHAR(100),\n    Promotion VARCHAR(100),\n    [Year] INT,\n    [Month] INT\n) WITH\n(\n    LOCATION = '/',\n    DATA_SOURCE = silver_source,\n    FILE_FORMAT = parquet\n) ;\n\n\nSELECT * from silver.retail;",
+			"query": "CREATE SCHEMA silver;\nCREATE schema gold;\n\n-------------------\n---External Table--\n-------------------\n\nCREATE EXTERNAL TABLE silver.retail\n(\n    Transaction_ID INT,\n    [Date] DATETIME2,\n    Customer_Name VARCHAR(100),\n    Product VARCHAR(100),\n    Total_Items INT,\n    Total_Cost DECIMAL(10,2),\n    Payment_Method VARCHAR(100),\n    City VARCHAR(100),\n    Store_Type VARCHAR(100),\n    Discount_Applied VARCHAR(100),\n    Customer_Category VARCHAR(100),\n    Season VARCHAR(100),\n    Promotion VARCHAR(100),\n    [Year] INT,\n    [Month] INT\n) WITH\n(\n    LOCATION = '/',\n    DATA_SOURCE = silver_source,\n    FILE_FORMAT = parquet\n) ;\n\n\nSELECT * from silver.retail;",
 			"metadata": {
 				"language": "sql"
 			},
