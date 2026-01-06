@@ -1,0 +1,21 @@
+{
+	"name": "bronze_parquet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dlake_to_synapse",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "retail.parquet",
+				"fileSystem": "bronze"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

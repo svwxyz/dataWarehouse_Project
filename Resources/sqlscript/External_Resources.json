@@ -1,0 +1,17 @@
+{
+	"name": "External_Resources",
+	"properties": {
+		"content": {
+			"query": "-----------------------\n---External Resources--\n-----------------------\n\n-------------------------\n---External Data Source--\n-------------------------\n\n\nCREATE EXTERNAL DATA SOURCE silver_source\nWITH \n(\n    LOCATION = 'https://retail0dlake.blob.core.windows.net/silver',\n    CREDENTIAL = sv_cred\n);\n\n\n\nCREATE EXTERNAL DATA SOURCE gold_source\nWITH\n(\n    LOCATION = 'https://retail0dlake.blob.core.windows.net/gold',\n    CREDENTIAL = sv_cred\n)\n\n\n-------------------------\n---External File Format--\n-------------------------\n\n\nCREATE EXTERNAL file FORMAT parquet\nWITH\n(\n    FORMAT_TYPE = PARQUET\n)\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "retail_serverless",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

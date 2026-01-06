@@ -1,0 +1,97 @@
+{
+	"name": "Dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "dataFlow_p",
+						"type": "DatasetReference"
+					},
+					"name": "source"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "silver_p",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Modify"
+				},
+				{
+					"name": "flatten1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "derivedColumn2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Transaction_ID as long,",
+				"          Date as timestamp,",
+				"          Customer_Name as string,",
+				"          Product as string,",
+				"          Total_Items as long,",
+				"          Total_Cost as decimal(38,18),",
+				"          Payment_Method as string,",
+				"          City as string,",
+				"          Store_Type as string,",
+				"          Discount_Applied as string,",
+				"          Customer_Category as string,",
+				"          Season as string,",
+				"          Promotion as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> source",
+				"source derive(Total_Cost = round(Total_Cost,2),",
+				"          Discount_Applied = iif(Discount_Applied == 'True', 'Yes', 'No'),",
+				"          Promotion = iif(Promotion=='None','No Promotion',Promotion),",
+				"          Year = year(Date),",
+				"          Month = month(Date),",
+				"          Product = split(Product,',')) ~> Modify",
+				"Modify foldDown(unroll(Product),",
+				"     mapColumn(",
+				"          Transaction_ID,",
+				"          Date,",
+				"          Customer_Name,",
+				"          Product,",
+				"          Total_Items,",
+				"          Total_Cost,",
+				"          Payment_Method,",
+				"          City,",
+				"          Store_Type,",
+				"          Discount_Applied,",
+				"          Customer_Category,",
+				"          Season,",
+				"          Promotion,",
+				"          Year,",
+				"          Month",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1",
+				"flatten1 derive(Product = toString(Product)) ~> derivedColumn1",
+				"derivedColumn1 derive(Product = replace(replace(replace(Product,'[',''),']',''),'\\'' ,'')) ~> derivedColumn2",
+				"derivedColumn2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
